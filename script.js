@@ -64,12 +64,19 @@ try {
     if (saved) {
         const parsed = JSON.parse(saved);
 
-        if (parsed && typeof parsed === "object") {
+        if (
+            parsed &&
+            typeof parsed === "object" &&
+            !Array.isArray(parsed)
+        ) {
             savedState = parsed;
         }
     }
 } catch (error) {
-    console.warn("Не удалось загрузить состояние чек-листа:", error);
+    console.warn(
+        "Не удалось загрузить состояние чек-листа:",
+        error
+    );
 }
 
 
@@ -77,37 +84,39 @@ try {
 // ELEMENTS
 // =====================================================
 
-const checklist = document.getElementById("checklist");
-const progressCount = document.getElementById("progress-count");
-const progressPercent = document.getElementById("progress-percent");
-const progressFill = document.getElementById("progress-fill");
-const completeMessage = document.getElementById("complete-message");
-const resetButton = document.getElementById("reset-button");
+const checklist =
+    document.getElementById("checklist");
+
+const progressCount =
+    document.getElementById("progress-count");
+
+const progressPercent =
+    document.getElementById("progress-percent");
+
+const progressFill =
+    document.getElementById("progress-fill");
+
+const completeMessage =
+    document.getElementById("complete-message");
+
+const resetButton =
+    document.getElementById("reset-button");
 
 
 // =====================================================
-// FALLBACK CHECK
+// TOTAL TASKS
 // =====================================================
 
-if (!checklist) {
-    console.error(
-        "Ошибка: элемент #checklist не найден в index.html."
+const totalTasks =
+    sections.reduce(
+        (sum, section) =>
+            sum + section.tasks.length,
+        0
     );
-}
 
 
 // =====================================================
-// ALL TASK COUNT
-// =====================================================
-
-const totalTasks = sections.reduce(
-    (sum, section) => sum + section.tasks.length,
-    0
-);
-
-
-// =====================================================
-// HELPERS
+// STATE HELPERS
 // =====================================================
 
 function isCompleted(index) {
@@ -116,39 +125,57 @@ function isCompleted(index) {
 
 
 function getCompletedCount() {
+
     let completed = 0;
 
-    for (let i = 0; i < totalTasks; i++) {
+    for (
+        let i = 0;
+        i < totalTasks;
+        i++
+    ) {
+
         if (isCompleted(i)) {
             completed++;
         }
+
     }
 
     return completed;
 }
 
 
+// =====================================================
+// SAVE STATE
+// =====================================================
+
 function saveState() {
+
     try {
+
         localStorage.setItem(
             storageKey,
             JSON.stringify(savedState)
         );
+
     } catch (error) {
+
         console.warn(
             "Не удалось сохранить состояние чек-листа:",
             error
         );
+
     }
 }
 
 
 // =====================================================
-// PROGRESS
+// UPDATE PROGRESS
 // =====================================================
 
 function updateProgress() {
-    const completed = getCompletedCount();
+
+    const completed =
+        getCompletedCount();
 
     const percentage =
         totalTasks === 0
@@ -157,27 +184,50 @@ function updateProgress() {
                 (completed / totalTasks) * 100
             );
 
+
     if (progressCount) {
+
         progressCount.textContent =
             `${completed} / ${totalTasks} выполнено`;
+
     }
+
 
     if (progressPercent) {
+
         progressPercent.textContent =
             `${percentage}%`;
+
     }
+
 
     if (progressFill) {
+
         progressFill.style.width =
             `${percentage}%`;
+
     }
 
+
     if (completeMessage) {
-        completeMessage.style.display =
-            completed === totalTasks && totalTasks > 0
-                ? "block"
-                : "none";
+
+        if (
+            completed === totalTasks &&
+            totalTasks > 0
+        ) {
+
+            completeMessage.style.display =
+                "block";
+
+        } else {
+
+            completeMessage.style.display =
+                "none";
+
+        }
+
     }
+
 }
 
 
@@ -185,131 +235,179 @@ function updateProgress() {
 // CREATE TASK
 // =====================================================
 
-function createTask(taskText, index) {
-    const task = document.createElement("div");
+function createTask(
+    taskText,
+    index
+) {
 
-    task.className = "academy-task";
+    const task =
+        document.createElement("div");
+
+    task.className =
+        "academy-task";
+
 
     if (isCompleted(index)) {
-        task.classList.add("completed");
+
+        task.classList.add(
+            "completed"
+        );
+
     }
 
 
     // Checkbox
-    const checkbox = document.createElement("div");
+    const checkbox =
+        document.createElement("div");
 
-    checkbox.className = "academy-checkbox";
+    checkbox.className =
+        "academy-checkbox";
 
 
     // Text
-    const text = document.createElement("div");
+    const text =
+        document.createElement("div");
 
-    text.className = "academy-task-text";
+    text.className =
+        "academy-task-text";
 
-    text.textContent = taskText;
+    text.textContent =
+        taskText;
 
 
     // Click
-    task.addEventListener("click", () => {
-        savedState[index] =
-            !isCompleted(index);
+    task.addEventListener(
+        "click",
+        () => {
 
-        task.classList.toggle(
-            "completed",
-            savedState[index]
-        );
-
-        saveState();
-        updateProgress();
-    });
+            savedState[index] =
+                !isCompleted(index);
 
 
-    task.appendChild(checkbox);
-    task.appendChild(text);
+            task.classList.toggle(
+                "completed",
+                savedState[index]
+            );
+
+
+            saveState();
+
+            updateProgress();
+
+        }
+    );
+
+
+    task.appendChild(
+        checkbox
+    );
+
+    task.appendChild(
+        text
+    );
+
 
     return task;
 }
 
 
 // =====================================================
-// RENDER
+// RENDER CHECKLIST
 // =====================================================
 
 function renderChecklist() {
+
     if (!checklist) {
         return;
     }
 
+
     checklist.innerHTML = "";
+
 
     let globalIndex = 0;
 
-    sections.forEach((section) => {
-        const sectionElement =
-            document.createElement("section");
 
-        sectionElement.className =
-            "academy-section";
+    sections.forEach(
+        (section) => {
 
+            const sectionElement =
+                document.createElement("section");
 
-        const title =
-            document.createElement("h2");
-
-        title.className =
-            "academy-section-title";
-
-        title.textContent =
-            section.title;
+            sectionElement.className =
+                "academy-section";
 
 
-        sectionElement.appendChild(title);
+            const title =
+                document.createElement("h2");
+
+            title.className =
+                "academy-section-title";
+
+            title.textContent =
+                section.title;
 
 
-        section.tasks.forEach((taskText) => {
-            const task =
-                createTask(
-                    taskText,
-                    globalIndex
-                );
-
-            sectionElement.appendChild(task);
-
-            globalIndex++;
-        });
+            sectionElement.appendChild(
+                title
+            );
 
 
-        checklist.appendChild(
-            sectionElement
-        );
-    });
+            section.tasks.forEach(
+                (taskText) => {
+
+                    const task =
+                        createTask(
+                            taskText,
+                            globalIndex
+                        );
+
+
+                    sectionElement.appendChild(
+                        task
+                    );
+
+
+                    globalIndex++;
+
+                }
+            );
+
+
+            checklist.appendChild(
+                sectionElement
+            );
+
+        }
+    );
+
 
     updateProgress();
 }
 
 
 // =====================================================
-// RESET
+// START NEW SHIFT
 // =====================================================
 
 if (resetButton) {
+
     resetButton.addEventListener(
         "click",
         () => {
-            const confirmed = window.confirm(
-                "Сбросить все задачи и начать новую смену?"
-            );
 
-            if (!confirmed) {
-                return;
-            }
-
+            // Сразу очищаем все отмеченные задачи
             savedState = {};
 
+            // Сохраняем пустое состояние
             saveState();
 
+            // Полностью перерисовываем чек-лист
             renderChecklist();
+
         }
     );
+
 }
 
 
