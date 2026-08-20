@@ -1,1 +1,101 @@
+<!DOCTYPE html>
 
+<html lang="ru"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chatter Academy — Чек-лист оператора</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="academy">
+
+<header class="academy-header">
+
+    <div class="academy-badge">
+        🎓 CHATTER ACADEMY
+    </div>
+
+    <h1>Чек-лист оператора</h1>
+
+    <p>
+        Выполни все обязательные задачи своей смены
+    </p>
+
+</header>
+
+
+<!-- PROGRESS -->
+
+<section class="progress-card">
+
+    <div class="progress-top">
+
+        <div>
+            <div class="progress-title">
+                📊 ПРОГРЕСС СМЕНЫ
+            </div>
+
+            <div
+                class="progress-count"
+                id="progress-count"
+            >
+                0 / 0 выполнено
+            </div>
+        </div>
+
+        <div
+            class="progress-percent"
+            id="progress-percent"
+        >
+            0%
+        </div>
+
+    </div>
+
+    <div class="progress-bar">
+        <div
+            class="progress-fill"
+            id="progress-fill"
+        ></div>
+    </div>
+
+</section>
+
+
+<!-- CHECKLIST -->
+
+<main id="checklist"></main>
+
+
+<!-- COMPLETE -->
+
+<div
+    class="complete-message"
+    id="complete-message"
+>
+    🎉 Смена полностью закрыта
+</div>
+
+
+<!-- RESET -->
+
+<button
+    class="reset-button"
+    id="reset-button"
+>
+    ↻ Начать новую смену
+</button>
+
+
+<footer>
+    Chatter Academy
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+
+</body> </html>
