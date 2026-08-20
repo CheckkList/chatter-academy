@@ -1,252 +1,217 @@
-var checklist = [
-{
-title: "🌅 Подготовка к смене",
-tasks: [
-"За 10–15 минут до начала смены подготовить сторис, посты и рассылки.",
-"Оповестить менеджера о начале смены и написать «старт».",
-"Обработать все непрочитанные и висящие сообщения.",
-"Просмотреть последние диалоги и найти пропущенные сообщения.",
-"Загрузить подготовленные сторис на рабочие анкеты.",
-"Загрузить посты согласно указаниям менеджера."
-]
-},
-{
-title: "🔥 Работа во время смены",
-tasks: [
-"Качественно обрабатывать все диалоги.",
-"Вести интересные, насыщенные и красочные диалоги.",
-"Добавлять всех новых фанов в список NEW FANS.",
-"Отправлять каждому новому фану индивидуальное приветственное сообщение.",
-"Обработать список потенциальных фанов минимум один раз за смену.",
-"Обработать списки фанов с высокой суммой трат.",
-"Проверять предыдущие сообщения сменщиков.",
-"При необходимости использовать БОТА.",
-"Соблюдать установленную менеджером периодичность рассылок.",
-"При низкой активности увеличивать частоту рассылок.",
-"Актуализировать списки фанов после изменения их статуса.",
-"Перемещать фанов в соответствующие списки по тратам.",
-"Добавлять важных фанов в список ОСОБОЕ ВНИМАНИЕ.",
-"Работать с фанами, вести секстинг и продавать контент."
-]
-},
-{
-title: "🌙 Завершение смены",
-tasks: [
-"За 10 минут до конца отменить рассылки OF.",
-"За 10–5 минут до конца отменить рассылки БОТА.",
-"Оповестить менеджера об окончании смены и написать «стоп».",
-"Подсчитать кассу во вкладке Statements по столбцу NET.",
-"Подготовить отчёт по проделанной работе.",
-"Добавить информацию о наиболее потенциальных фанах смены."
-]
-}
+var tasks = [
+"🌅 Подготовить сторис, посты и рассылки за 10–15 минут до смены.",
+"🌅 Оповестить менеджера о начале смены и написать «старт».",
+"🌅 Обработать все непрочитанные и висящие сообщения.",
+"🌅 Просмотреть последние диалоги и найти пропущенные сообщения.",
+"🌅 Загрузить подготовленные сторис на рабочие анкеты.",
+"🌅 Загрузить посты согласно указаниям менеджера.",
+
+```
+"🔥 Качественно обрабатывать все диалоги.",
+"🔥 Вести интересные и насыщенные диалоги.",
+"🔥 Добавлять новых фанов в NEW FANS.",
+"🔥 Отправлять каждому новому фану индивидуальное приветствие.",
+"🔥 Обработать список потенциальных фанов.",
+"🔥 Обработать списки фанов с высокой суммой трат.",
+"🔥 Проверять предыдущие сообщения сменщиков.",
+"🔥 При необходимости использовать БОТА.",
+"🔥 Соблюдать периодичность рассылок менеджера.",
+"🔥 При низкой активности увеличивать частоту рассылок.",
+"🔥 Актуализировать списки фанов.",
+"🔥 Перемещать фанов в соответствующие списки по тратам.",
+"🔥 Добавлять важных фанов в ОСОБОЕ ВНИМАНИЕ.",
+"🔥 Вести общение, секстинг и продажи контента.",
+"🔥 Работать с кастомным контентом.",
+
+"🌙 За 10 минут до конца отменить рассылки OF.",
+"🌙 За 5–10 минут до конца отменить рассылки БОТА.",
+"🌙 Оповестить менеджера об окончании смены и написать «стоп».",
+"🌙 Подсчитать кассу в Statements по столбцу NET.",
+"🌙 Подготовить отчёт по проделанной работе.",
+"🌙 Добавить в отчёт наиболее потенциальных фанов."
+```
+
 ];
 
-var STORAGE_KEY = "chatter_academy_progress";
+var storageName = "chatter_academy_shift";
 
-var state = {};
+var saved = localStorage.getItem(storageName);
 
-var oldData = localStorage.getItem(STORAGE_KEY);
+var checked = [];
 
-if (oldData !== null) {
+if (saved) {
 try {
-state = JSON.parse(oldData);
+checked = JSON.parse(saved);
 } catch (error) {
-state = {};
+checked = [];
 }
 }
 
-var checklistElement = document.getElementById("checklist");
-var progressCount = document.getElementById("progress-count");
-var progressPercent = document.getElementById("progress-percent");
-var progressFill = document.getElementById("progress-fill");
-var completeMessage = document.getElementById("complete-message");
-var resetButton = document.getElementById("reset-button");
+var container = document.getElementById("checklist");
+var countElement = document.getElementById("progress-count");
+var percentElement = document.getElementById("progress-percent");
+var fillElement = document.getElementById("progress-fill");
+var messageElement = document.getElementById("complete-message");
+var resetElement = document.getElementById("reset-button");
 
-var totalTasks = 0;
-var i;
-var j;
+container.innerHTML = "";
 
-for (i = 0; i < checklist.length; i++) {
-totalTasks =
-totalTasks +
-checklist[i].tasks.length;
-}
-
-function saveProgress() {
-
-```
-localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(state)
-);
-```
-
-}
-
-function updateProgress() {
-
-```
 var completed = 0;
-var percent = 0;
+
 var i;
 
-for (i = 0; i < totalTasks; i++) {
+for (i = 0; i < tasks.length; i++) {
 
-    if (state[i] === true) {
-        completed++;
-    }
+```
+var item = document.createElement("div");
+
+item.className = "task";
+
+var box = document.createElement("div");
+
+box.className = "checkbox";
+
+var text = document.createElement("div");
+
+text.className = "task-text";
+
+text.textContent = tasks[i];
+
+item.appendChild(box);
+
+item.appendChild(text);
+
+if (checked[i] === true) {
+
+    item.classList.add("completed");
+
+    completed++;
 }
 
-if (totalTasks > 0) {
+(function(currentItem, currentNumber) {
 
-    percent =
-        Math.round(
-            completed * 100 / totalTasks
+    currentItem.onclick = function() {
+
+        if (checked[currentNumber] === true) {
+
+            checked[currentNumber] = false;
+
+            currentItem.classList.remove(
+                "completed"
+            );
+
+        } else {
+
+            checked[currentNumber] = true;
+
+            currentItem.classList.add(
+                "completed"
+            );
+        }
+
+        localStorage.setItem(
+            storageName,
+            JSON.stringify(checked)
         );
+
+        var done = 0;
+
+        var x;
+
+        for (x = 0; x < tasks.length; x++) {
+
+            if (checked[x] === true) {
+                done++;
+            }
+        }
+
+        var percent = 0;
+
+        if (tasks.length > 0) {
+
+            percent =
+                Math.round(
+                    done * 100 / tasks.length
+                );
+        }
+
+        countElement.textContent =
+            done +
+            " / " +
+            tasks.length +
+            " выполнено";
+
+        percentElement.textContent =
+            percent +
+            "%";
+
+        fillElement.style.width =
+            percent +
+            "%";
+
+        if (done === tasks.length) {
+
+            messageElement.style.display =
+                "block";
+
+        } else {
+
+            messageElement.style.display =
+                "none";
+        }
+    };
+
+})(item, i);
+
+container.appendChild(item);
+```
+
 }
 
-progressCount.textContent =
-    completed +
-    " / " +
-    totalTasks +
-    " выполнено";
+var initialPercent = 0;
 
-progressPercent.textContent =
-    percent +
-    "%";
+if (tasks.length > 0) {
 
-progressFill.style.width =
-    percent +
-    "%";
+```
+initialPercent =
+    Math.round(
+        completed * 100 / tasks.length
+    );
+```
 
-if (
-    completed === totalTasks &&
-    totalTasks > 0
-) {
+}
 
-    completeMessage.style.display =
-        "block";
+countElement.textContent =
+completed +
+" / " +
+tasks.length +
+" выполнено";
+
+percentElement.textContent =
+initialPercent +
+"%";
+
+fillElement.style.width =
+initialPercent +
+"%";
+
+if (completed === tasks.length) {
+
+```
+messageElement.style.display =
+    "block";
+```
 
 } else {
 
-    completeMessage.style.display =
-        "none";
-}
+```
+messageElement.style.display =
+    "none";
 ```
 
 }
 
-function makeTask(text, number) {
-
-```
-var element =
-    document.createElement("div");
-
-element.className = "task";
-
-var checkbox =
-    document.createElement("div");
-
-checkbox.className = "checkbox";
-
-var label =
-    document.createElement("div");
-
-label.className = "task-text";
-
-label.textContent = text;
-
-element.appendChild(checkbox);
-element.appendChild(label);
-
-if (state[number] === true) {
-    element.classList.add("completed");
-}
-
-element.onclick = function() {
-
-    if (state[number] === true) {
-
-        state[number] = false;
-
-        element.classList.remove(
-            "completed"
-        );
-
-    } else {
-
-        state[number] = true;
-
-        element.classList.add(
-            "completed"
-        );
-    }
-
-    saveProgress();
-
-    updateProgress();
-};
-
-return element;
-```
-
-}
-
-function renderChecklist() {
-
-```
-checklistElement.innerHTML = "";
-
-var number = 0;
-var i;
-var j;
-
-for (i = 0; i < checklist.length; i++) {
-
-    var section =
-        document.createElement("section");
-
-    section.className =
-        "checklist-section";
-
-    var heading =
-        document.createElement("div");
-
-    heading.className =
-        "section-title";
-
-    heading.textContent =
-        checklist[i].title;
-
-    section.appendChild(heading);
-
-    for (
-        j = 0;
-        j < checklist[i].tasks.length;
-        j++
-    ) {
-
-        var task =
-            makeTask(
-                checklist[i].tasks[j],
-                number
-            );
-
-        section.appendChild(task);
-
-        number++;
-    }
-
-    checklistElement.appendChild(section);
-}
-
-updateProgress();
-```
-
-}
-
-function resetShift() {
+resetElement.onclick = function() {
 
 ```
 var answer =
@@ -254,19 +219,18 @@ var answer =
         "Начать новую смену? Все галочки будут сброшены."
     );
 
-if (answer !== true) {
+if (!answer) {
     return;
 }
 
-state = {};
+checked = [];
 
-saveProgress();
+localStorage.removeItem(
+    storageName
+);
 
-renderChecklist();
+window.location.reload();
 ```
 
-}
+};
 
-resetButton.onclick = resetShift;
-
-renderChecklist();
