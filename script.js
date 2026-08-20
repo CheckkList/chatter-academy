@@ -1,203 +1,320 @@
-var tasks = [
-    "🌅 Подготовить сторис, посты и рассылки за 10–15 минут до смены.",
-    "🌅 Оповестить менеджера о начале смены и написать «старт».",
-    "🌅 Обработать все непрочитанные и висящие сообщения.",
-    "🌅 Просмотреть последние диалоги и найти пропущенные сообщения.",
-    "🌅 Загрузить подготовленные сторис на рабочие анкеты.",
-    "🌅 Загрузить посты согласно указаниям менеджера.",
+// =====================================================
+// 🎓 CHATTER ACADEMY — SHIFT CHECKLIST
+// =====================================================
 
-    "🔥 Качественно обрабатывать все диалоги.",
-    "🔥 Вести интересные и насыщенные диалоги.",
-    "🔥 Добавлять новых фанов в NEW FANS.",
-    "🔥 Отправлять каждому новому фану индивидуальное приветствие.",
-    "🔥 Обработать список потенциальных фанов.",
-    "🔥 Обработать списки фанов с высокой суммой трат.",
-    "🔥 Проверять предыдущие сообщения сменщиков.",
-    "🔥 При необходимости использовать БОТА.",
-    "🔥 Соблюдать периодичность рассылок менеджера.",
-    "🔥 При низкой активности увеличивать частоту рассылок.",
-    "🔥 Актуализировать списки фанов.",
-    "🔥 Перемещать фанов в соответствующие списки по тратам.",
-    "🔥 Добавлять важных фанов в ОСОБОЕ ВНИМАНИЕ.",
-    "🔥 Вести общение, секстинг и продажи контента.",
-    "🔥 Работать с кастомным контентом.",
+const sections = [
+    {
+        title: "🌅 Подготовка к смене",
+        tasks: [
+            "Подготовить сторис, посты и рассылки за 10–15 минут до смены.",
+            "Оповестить менеджера о начале смены и написать «старт».",
+            "Обработать все непрочитанные и висящие сообщения.",
+            "Просмотреть последние диалоги и найти пропущенные сообщения.",
+            "Загрузить подготовленные сторис на рабочие анкеты.",
+            "Загрузить посты согласно указаниям менеджера."
+        ]
+    },
 
-    "🌙 За 10 минут до конца отменить рассылки OF.",
-    "🌙 За 5–10 минут до конца отменить рассылки БОТА.",
-    "🌙 Оповестить менеджера об окончании смены и написать «стоп».",
-    "🌙 Подсчитать кассу в Statements по столбцу NET.",
-    "🌙 Подготовить отчёт по проделанной работе.",
-    "🌙 Добавить в отчёт наиболее потенциальных фанов."
+    {
+        title: "🔥 Работа во время смены",
+        tasks: [
+            "Качественно обрабатывать все диалоги.",
+            "Вести интересные и насыщенные диалоги.",
+            "Добавлять новых фанов в NEW FANS.",
+            "Отправлять каждому новому фану индивидуальное приветствие.",
+            "Обработать список потенциальных фанов.",
+            "Обработать списки фанов с высокой суммой трат.",
+            "Проверять предыдущие сообщения сменщиков.",
+            "При необходимости использовать БОТА.",
+            "Соблюдать периодичность рассылок менеджера.",
+            "При низкой активности увеличивать частоту рассылок.",
+            "Актуализировать списки фанов.",
+            "Перемещать фанов в соответствующие списки по тратам.",
+            "Добавлять важных фанов в ОСОБОЕ ВНИМАНИЕ.",
+            "Вести общение, секстинг и продажи контента.",
+            "Работать с кастомным контентом."
+        ]
+    },
+
+    {
+        title: "🌙 Завершение смены",
+        tasks: [
+            "За 10 минут до конца отменить рассылки OF.",
+            "За 5–10 минут до конца отменить рассылки БОТА.",
+            "Оповестить менеджера об окончании смены и написать «стоп».",
+            "Подсчитать кассу в Statements по столбцу NET.",
+            "Подготовить отчёт по проделанной работе.",
+            "Добавить в отчёт наиболее потенциальных фанов."
+        ]
+    }
 ];
 
-var storageName = "chatter_academy_shift";
 
-var saved = localStorage.getItem(storageName);
+// =====================================================
+// STORAGE
+// =====================================================
 
-var checked = [];
+const storageKey = "chatter-academy-shift-checklist";
 
-if (saved) {
-    try {
-        checked = JSON.parse(saved);
+let savedState = {};
 
-        if (!Array.isArray(checked)) {
-            checked = [];
+try {
+    const saved = localStorage.getItem(storageKey);
+
+    if (saved) {
+        const parsed = JSON.parse(saved);
+
+        if (parsed && typeof parsed === "object") {
+            savedState = parsed;
         }
-    } catch (error) {
-        checked = [];
     }
+} catch (error) {
+    console.warn("Не удалось загрузить состояние чек-листа:", error);
 }
 
-var container = document.getElementById("checklist");
-var countElement = document.getElementById("progress-count");
-var percentElement = document.getElementById("progress-percent");
-var fillElement = document.getElementById("progress-fill");
-var messageElement = document.getElementById("complete-message");
-var resetElement = document.getElementById("reset-button");
+
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const checklist = document.getElementById("checklist");
+const progressCount = document.getElementById("progress-count");
+const progressPercent = document.getElementById("progress-percent");
+const progressFill = document.getElementById("progress-fill");
+const completeMessage = document.getElementById("complete-message");
+const resetButton = document.getElementById("reset-button");
 
 
-function saveProgress() {
-    localStorage.setItem(
-        storageName,
-        JSON.stringify(checked)
+// =====================================================
+// FALLBACK CHECK
+// =====================================================
+
+if (!checklist) {
+    console.error(
+        "Ошибка: элемент #checklist не найден в index.html."
     );
 }
 
 
-function updateProgress() {
+// =====================================================
+// ALL TASK COUNT
+// =====================================================
 
-    var completed = checked.filter(function(value) {
-        return value === true;
-    }).length;
-
-    var total = tasks.length;
-
-    var percent = total === 0
-        ? 0
-        : Math.round((completed / total) * 100);
-
-    countElement.textContent =
-        completed + " / " + total;
-
-    percentElement.textContent =
-        percent + "%";
-
-    fillElement.style.width =
-        percent + "%";
+const totalTasks = sections.reduce(
+    (sum, section) => sum + section.tasks.length,
+    0
+);
 
 
-    if (completed === total && total > 0) {
+// =====================================================
+// HELPERS
+// =====================================================
 
-        messageElement.style.display = "block";
+function isCompleted(index) {
+    return savedState[index] === true;
+}
 
-    } else {
 
-        messageElement.style.display = "none";
+function getCompletedCount() {
+    let completed = 0;
 
+    for (let i = 0; i < totalTasks; i++) {
+        if (isCompleted(i)) {
+            completed++;
+        }
+    }
+
+    return completed;
+}
+
+
+function saveState() {
+    try {
+        localStorage.setItem(
+            storageKey,
+            JSON.stringify(savedState)
+        );
+    } catch (error) {
+        console.warn(
+            "Не удалось сохранить состояние чек-листа:",
+            error
+        );
     }
 }
 
 
-function createTask(index) {
+// =====================================================
+// PROGRESS
+// =====================================================
 
-    var row = document.createElement("div");
+function updateProgress() {
+    const completed = getCompletedCount();
 
-    row.className = "shift-task";
+    const percentage =
+        totalTasks === 0
+            ? 0
+            : Math.round(
+                (completed / totalTasks) * 100
+            );
+
+    if (progressCount) {
+        progressCount.textContent =
+            `${completed} / ${totalTasks} выполнено`;
+    }
+
+    if (progressPercent) {
+        progressPercent.textContent =
+            `${percentage}%`;
+    }
+
+    if (progressFill) {
+        progressFill.style.width =
+            `${percentage}%`;
+    }
+
+    if (completeMessage) {
+        completeMessage.style.display =
+            completed === totalTasks && totalTasks > 0
+                ? "block"
+                : "none";
+    }
+}
 
 
-    var checkbox = document.createElement("input");
+// =====================================================
+// CREATE TASK
+// =====================================================
 
-    checkbox.type = "checkbox";
+function createTask(taskText, index) {
+    const task = document.createElement("div");
 
-    checkbox.className = "shift-checkbox";
+    task.className = "academy-task";
 
-    checkbox.checked = checked[index] === true;
-
-
-    var label = document.createElement("label");
-
-    label.className = "shift-task-text";
-
-    label.textContent = tasks[index];
-
-
-    if (checkbox.checked) {
-        row.classList.add("completed");
+    if (isCompleted(index)) {
+        task.classList.add("completed");
     }
 
 
-    checkbox.addEventListener("change", function() {
+    // Checkbox
+    const checkbox = document.createElement("div");
 
-        checked[index] = checkbox.checked;
-
-        if (checkbox.checked) {
-
-            row.classList.add("completed");
-
-        } else {
-
-            row.classList.remove("completed");
-
-        }
-
-        saveProgress();
-
-        updateProgress();
-
-    });
+    checkbox.className = "academy-checkbox";
 
 
-    label.addEventListener("click", function() {
+    // Text
+    const text = document.createElement("div");
 
-        checkbox.checked = !checkbox.checked;
+    text.className = "academy-task-text";
 
-        checkbox.dispatchEvent(
-            new Event("change")
+    text.textContent = taskText;
+
+
+    // Click
+    task.addEventListener("click", () => {
+        savedState[index] =
+            !isCompleted(index);
+
+        task.classList.toggle(
+            "completed",
+            savedState[index]
         );
 
+        saveState();
+        updateProgress();
     });
 
 
-    row.appendChild(checkbox);
+    task.appendChild(checkbox);
+    task.appendChild(text);
 
-    row.appendChild(label);
-
-    container.appendChild(row);
+    return task;
 }
 
 
-function renderTasks() {
+// =====================================================
+// RENDER
+// =====================================================
 
-    container.innerHTML = "";
-
-    for (var i = 0; i < tasks.length; i++) {
-
-        createTask(i);
-
+function renderChecklist() {
+    if (!checklist) {
+        return;
     }
+
+    checklist.innerHTML = "";
+
+    let globalIndex = 0;
+
+    sections.forEach((section) => {
+        const sectionElement =
+            document.createElement("section");
+
+        sectionElement.className =
+            "academy-section";
+
+
+        const title =
+            document.createElement("h2");
+
+        title.className =
+            "academy-section-title";
+
+        title.textContent =
+            section.title;
+
+
+        sectionElement.appendChild(title);
+
+
+        section.tasks.forEach((taskText) => {
+            const task =
+                createTask(
+                    taskText,
+                    globalIndex
+                );
+
+            sectionElement.appendChild(task);
+
+            globalIndex++;
+        });
+
+
+        checklist.appendChild(
+            sectionElement
+        );
+    });
 
     updateProgress();
 }
 
 
-resetElement.addEventListener("click", function() {
+// =====================================================
+// RESET
+// =====================================================
 
-    var confirmed = confirm(
-        "Сбросить все задачи текущей смены?"
+if (resetButton) {
+    resetButton.addEventListener(
+        "click",
+        () => {
+            const confirmed = window.confirm(
+                "Сбросить все задачи и начать новую смену?"
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            savedState = {};
+
+            saveState();
+
+            renderChecklist();
+        }
     );
-
-    if (!confirmed) {
-        return;
-    }
+}
 
 
-    checked = [];
+// =====================================================
+// START
+// =====================================================
 
-    saveProgress();
-
-    renderTasks();
-
-});
-
-
-renderTasks();
+renderChecklist();
