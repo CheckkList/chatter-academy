@@ -1,6 +1,6 @@
 /* =========================================================
    🎓 CHATTER ACADEMY
-   OBSIDIAN-STYLE GITHUB VERSION
+   OBSIDIAN-STYLE DARK THEME
    ========================================================= */
 
 
@@ -68,10 +68,7 @@ body {
    ========================================================= */
 
 .academy {
-    width: min(
-        100%,
-        1450px
-    );
+    width: min(100%, 1450px);
 
     margin: 0 auto;
 
@@ -224,8 +221,7 @@ body {
 
     border-radius: 999px;
 
-    transition:
-        width 0.3s ease;
+    transition: width 0.3s ease;
 }
 
 
@@ -277,7 +273,7 @@ body {
 
     align-items: flex-start;
 
-    gap: 12px;
+    gap: 13px;
 
     width: 100%;
 
@@ -326,42 +322,51 @@ body {
 
     flex-shrink: 0;
 
-    width: 20px;
+    width: 18px;
 
-    height: 20px;
+    height: 18px;
 
-    min-width: 20px;
+    min-width: 18px;
 
-    margin-top: 1px;
+    margin-top: 2px;
+
+    margin-right: 3px;
 
     box-sizing: border-box;
 
     background: transparent;
 
     border:
-        2px solid
-        var(--text-muted);
+        1.5px solid
+        #6f7185;
 
-    border-radius: 6px;
+    border-radius: 5px;
+
+    cursor: pointer;
 
     transition:
-        background 0.15s ease,
         border-color 0.15s ease,
-        transform 0.15s ease;
+        background 0.15s ease,
+        transform 0.12s ease;
 }
 
+
+/* Наведение на чекбокс */
 
 .academy-task:hover .academy-checkbox {
     border-color:
         var(--interactive-accent);
+
+    transform: scale(1.04);
 }
 
 
 /* =========================================================
-   CHECKBOX — COMPLETED
+   CHECKED CHECKBOX
    ========================================================= */
 
-.academy-task.completed .academy-checkbox {
+.academy-task.completed
+.academy-checkbox {
     background:
         var(--interactive-accent);
 
@@ -370,6 +375,10 @@ body {
 }
 
 
+/* =========================================================
+   CHECKMARK
+   ========================================================= */
+
 .academy-checkbox::after {
     content: "";
 
@@ -377,28 +386,32 @@ body {
 
     left: 5px;
 
-    top: 1px;
+    top: 2px;
 
-    width: 5px;
+    width: 4px;
 
-    height: 10px;
+    height: 8px;
 
     border-right:
-        2px solid
-        #ffffff;
+        1.7px solid
+        #1e1e2e;
 
     border-bottom:
-        2px solid
-        #ffffff;
+        1.7px solid
+        #1e1e2e;
 
     transform:
         rotate(45deg)
         scale(0);
 
+    transform-origin: center;
+
     transition:
         transform 0.15s ease;
 }
 
+
+/* Показываем галочку */
 
 .academy-task.completed
 .academy-checkbox::after {
@@ -436,6 +449,8 @@ body {
 
 .academy-task.completed
 .academy-task-text {
+    color: var(--text-muted);
+
     text-decoration: line-through;
 
     text-decoration-thickness: 1px;
@@ -485,14 +500,14 @@ body {
         12px
         15px;
 
+    background:
+        var(--background-secondary);
+
     border:
         1px solid
         var(--background-border);
 
     border-radius: 10px;
-
-    background:
-        var(--background-secondary);
 
     color:
         var(--text-normal);
@@ -659,6 +674,6 @@ footer {
 
 
     .academy-task {
-        gap: 10px;
+        gap: 11px;
     }
 }
