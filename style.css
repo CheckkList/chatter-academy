@@ -3,33 +3,22 @@
    OBSIDIAN-STYLE DARK THEME
    ========================================================= */
 
-
-/* =========================================================
-   COLORS
-   ========================================================= */
-
 :root {
     --background-primary: #1e1e2e;
     --background-secondary: #181825;
-    --background-secondary-alt: #1f1f2e;
-
-    --background-hover: #242437;
+    --background-secondary-alt: #20202f;
 
     --background-border: #313244;
-    --background-border-hover: #41415a;
+    --background-border-hover: #4a4a63;
 
     --text-normal: #cdd6f4;
     --text-bright: #f5f5f7;
     --text-muted: #8589a1;
 
     --interactive-accent: #89b4fa;
-    --interactive-accent-hover: #9fc3ff;
+    --interactive-accent-hover: #a4c2ff;
 
-    --green: #a6e3a1;
-
-    --radius-small: 8px;
-    --radius-medium: 11px;
-    --radius-large: 16px;
+    --success: #a6e3a1;
 }
 
 
@@ -39,14 +28,14 @@
 
 html,
 body {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
 
     min-height: 100%;
 
-    background: var(--background-primary);
+    background: var(--background-primary) !important;
 
-    color: var(--text-normal);
+    color: var(--text-normal) !important;
 
     font-family:
         -apple-system,
@@ -58,13 +47,11 @@ body {
         sans-serif;
 
     font-size: 14px;
-
-    line-height: 1.5;
 }
 
 
 /* =========================================================
-   MAIN WRAPPER
+   MAIN
    ========================================================= */
 
 .academy {
@@ -91,19 +78,6 @@ body {
 }
 
 
-.academy-badge {
-    margin-bottom: 8px;
-
-    color: var(--text-muted);
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    letter-spacing: 0.2px;
-}
-
-
 .academy-header h1 {
     margin: 0;
 
@@ -127,7 +101,7 @@ body {
 
 
 /* =========================================================
-   PROGRESS CARD
+   PROGRESS
    ========================================================= */
 
 .progress-card {
@@ -141,13 +115,9 @@ body {
         1px solid
         var(--background-border);
 
-    border-radius: var(--radius-large);
+    border-radius: 16px;
 }
 
-
-/* =========================================================
-   PROGRESS TOP
-   ========================================================= */
 
 .progress-top {
     display: flex;
@@ -168,8 +138,6 @@ body {
     font-size: 14px;
 
     font-weight: 750;
-
-    letter-spacing: 0.1px;
 }
 
 
@@ -185,7 +153,7 @@ body {
 .progress-percent {
     min-width: 52px;
 
-    color: var(--interactive-accent-hover);
+    color: var(--interactive-accent);
 
     font-size: 22px;
 
@@ -195,18 +163,14 @@ body {
 }
 
 
-/* =========================================================
-   PROGRESS BAR
-   ========================================================= */
-
 .progress-bar {
     width: 100%;
 
-    height: 10px;
+    height: 9px;
 
     overflow: hidden;
 
-    background: var(--background-primary);
+    background: #11111b;
 
     border-radius: 999px;
 }
@@ -239,19 +203,15 @@ body {
    ========================================================= */
 
 .academy-section {
-    margin-bottom: 26px;
+    margin-bottom: 28px;
 }
 
-
-/* =========================================================
-   SECTION TITLE
-   ========================================================= */
 
 .academy-section-title {
     margin:
         0
         0
-        10px
+        11px
         2px;
 
     color: var(--text-bright);
@@ -259,8 +219,6 @@ body {
     font-size: 18px;
 
     font-weight: 750;
-
-    letter-spacing: -0.2px;
 }
 
 
@@ -271,17 +229,19 @@ body {
 .academy-task {
     display: flex;
 
-    align-items: flex-start;
+    align-items: center;
 
-    gap: 13px;
+    gap: 15px;
 
     width: 100%;
 
-    padding:
-        13px
-        15px;
+    min-height: 48px;
 
-    margin-bottom: 7px;
+    padding:
+        11px
+        16px;
+
+    margin-bottom: 8px;
 
     box-sizing: border-box;
 
@@ -291,87 +251,102 @@ body {
         1px solid
         var(--background-border);
 
-    border-radius: var(--radius-medium);
+    border-radius: 13px;
 
     cursor: pointer;
 
     transition:
-        transform 0.15s ease,
         background 0.15s ease,
         border-color 0.15s ease,
+        transform 0.15s ease,
         opacity 0.2s ease;
 }
 
 
 .academy-task:hover {
-    transform: translateX(2px);
-
     background: var(--background-secondary-alt);
 
-    border-color:
-        var(--interactive-accent);
+    border-color: var(--background-border-hover);
+
+    transform: translateX(2px);
 }
 
 
 /* =========================================================
-   CHECKBOX
+   CHECKBOX — LARGE OBSIDIAN STYLE
    ========================================================= */
 
 .academy-checkbox {
-    position: relative;
+    position: relative !important;
 
-    flex-shrink: 0;
+    display: block !important;
 
-    width: 18px;
+    flex: 0 0 22px !important;
 
-    height: 18px;
+    width: 22px !important;
 
-    min-width: 18px;
+    min-width: 22px !important;
 
-    margin-top: 2px;
+    max-width: 22px !important;
 
-    margin-right: 3px;
+    height: 22px !important;
 
-    box-sizing: border-box;
+    min-height: 22px !important;
 
-    background: transparent;
+    max-height: 22px !important;
+
+    margin: 0 2px 0 0 !important;
+
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    background: transparent !important;
 
     border:
-        1.5px solid
-        #6f7185;
+        2px solid
+        #777b94 !important;
 
-    border-radius: 5px;
+    border-radius: 50% !important;
 
     cursor: pointer;
 
     transition:
         border-color 0.15s ease,
         background 0.15s ease,
-        transform 0.12s ease;
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 
-/* Наведение на чекбокс */
+/* Hover */
 
 .academy-task:hover .academy-checkbox {
     border-color:
-        var(--interactive-accent);
+        var(--interactive-accent) !important;
 
-    transform: scale(1.04);
+    transform: scale(1.06);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(137, 180, 250, 0.08);
 }
 
 
 /* =========================================================
-   CHECKED CHECKBOX
+   CHECKED
    ========================================================= */
 
-.academy-task.completed
-.academy-checkbox {
+.academy-task.completed .academy-checkbox {
     background:
-        var(--interactive-accent);
+        var(--interactive-accent) !important;
 
     border-color:
-        var(--interactive-accent);
+        var(--interactive-accent) !important;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(137, 180, 250, 0.10);
 }
 
 
@@ -380,44 +355,51 @@ body {
    ========================================================= */
 
 .academy-checkbox::after {
-    content: "";
+    content: "" !important;
 
-    position: absolute;
+    position: absolute !important;
 
-    left: 5px;
+    left: 7px !important;
 
-    top: 2px;
+    top: 4px !important;
 
-    width: 4px;
+    width: 5px !important;
 
-    height: 8px;
+    height: 9px !important;
 
-    border-right:
-        1.7px solid
-        #1e1e2e;
+    background: transparent !important;
 
-    border-bottom:
-        1.7px solid
-        #1e1e2e;
+    border:
+        solid #1e1e2e !important;
+
+    border-width:
+        0
+        2px
+        2px
+        0 !important;
 
     transform:
         rotate(45deg)
-        scale(0);
+        scale(0) !important;
 
-    transform-origin: center;
+    opacity: 0;
 
     transition:
-        transform 0.15s ease;
+        transform 0.15s ease,
+        opacity 0.15s ease;
 }
 
 
-/* Показываем галочку */
+/* Show check */
 
 .academy-task.completed
 .academy-checkbox::after {
+
     transform:
         rotate(45deg)
-        scale(1);
+        scale(1) !important;
+
+    opacity: 1;
 }
 
 
@@ -432,23 +414,24 @@ body {
 
     font-size: 14px;
 
-    line-height: 1.45;
+    line-height: 1.5;
 
     user-select: none;
 }
 
 
 /* =========================================================
-   COMPLETED TASK
+   COMPLETED
    ========================================================= */
 
 .academy-task.completed {
-    opacity: 0.48;
+    opacity: 0.46;
 }
 
 
 .academy-task.completed
 .academy-task-text {
+
     color: var(--text-muted);
 
     text-decoration: line-through;
@@ -464,14 +447,11 @@ body {
 .complete-message {
     display: none;
 
-    padding: 17px;
+    padding: 16px;
 
     margin-top: 15px;
 
-    text-align: center;
-
-    background:
-        var(--background-secondary);
+    background: var(--background-secondary);
 
     border:
         1px solid
@@ -481,12 +461,14 @@ body {
 
     color: var(--text-bright);
 
+    text-align: center;
+
     font-weight: 700;
 }
 
 
 /* =========================================================
-   RESET BUTTON
+   RESET
    ========================================================= */
 
 .reset-button {
@@ -507,7 +489,7 @@ body {
         1px solid
         var(--background-border);
 
-    border-radius: 10px;
+    border-radius: 11px;
 
     color:
         var(--text-normal);
@@ -534,23 +516,6 @@ body {
 
     transform:
         translateY(-1px);
-}
-
-
-/* =========================================================
-   FOOTER
-   ========================================================= */
-
-footer {
-    margin-top: 26px;
-
-    color: var(--text-muted);
-
-    font-size: 12px;
-
-    text-align: center;
-
-    opacity: 0.6;
 }
 
 
@@ -582,12 +547,12 @@ footer {
 
 ::-webkit-scrollbar-thumb:hover {
     background:
-        #494961;
+        #4a4a63;
 }
 
 
 /* =========================================================
-   MOBILE
+   TABLET
    ========================================================= */
 
 @media (max-width: 800px) {
@@ -614,22 +579,34 @@ footer {
 
 
     .academy-task {
-        padding:
-            12px
-            13px;
+        min-height: 46px;
 
-        border-radius: 10px;
+        padding:
+            10px
+            13px;
     }
 
 
-    .academy-task-text {
-        font-size: 13px;
+    .academy-checkbox {
+        flex-basis: 21px !important;
+
+        width: 21px !important;
+
+        min-width: 21px !important;
+
+        max-width: 21px !important;
+
+        height: 21px !important;
+
+        min-height: 21px !important;
+
+        max-height: 21px !important;
     }
 }
 
 
 /* =========================================================
-   SMALL MOBILE
+   MOBILE
    ========================================================= */
 
 @media (max-width: 500px) {
@@ -643,28 +620,8 @@ footer {
     }
 
 
-    .academy-header {
-        margin-bottom: 22px;
-    }
-
-
     .academy-header h1 {
         font-size: 21px;
-    }
-
-
-    .academy-header p {
-        font-size: 13px;
-    }
-
-
-    .progress-top {
-        align-items: flex-start;
-    }
-
-
-    .progress-percent {
-        font-size: 20px;
     }
 
 
@@ -674,6 +631,47 @@ footer {
 
 
     .academy-task {
-        gap: 11px;
+        gap: 13px;
+
+        min-height: 46px;
+
+        padding:
+            10px
+            12px;
+
+        border-radius: 12px;
+    }
+
+
+    .academy-checkbox {
+        flex-basis: 20px !important;
+
+        width: 20px !important;
+
+        min-width: 20px !important;
+
+        max-width: 20px !important;
+
+        height: 20px !important;
+
+        min-height: 20px !important;
+
+        max-height: 20px !important;
+    }
+
+
+    .academy-checkbox::after {
+        left: 6px !important;
+
+        top: 3px !important;
+
+        width: 5px !important;
+
+        height: 8px !important;
+    }
+
+
+    .academy-task-text {
+        font-size: 13px;
     }
 }
