@@ -1,101 +1,111 @@
 <!DOCTYPE html>
 
-<html lang="ru"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatter Academy — Чек-лист оператора</title>
 
-<title>Chatter Academy — Чек-лист оператора</title>
-
+```
 <link rel="stylesheet" href="style.css">
+```
 
 </head>
 
 <body>
 
+```
 <div class="academy">
 
-<header class="academy-header">
+    <header class="academy-header">
 
-    <div class="academy-badge">
-        🎓 CHATTER ACADEMY
-    </div>
+        <div class="academy-badge">
+            🎓 CHATTER ACADEMY
+        </div>
 
-    <h1>Чек-лист оператора</h1>
+        <h1>
+            Чек-лист оператора
+        </h1>
 
-    <p>
-        Выполни все обязательные задачи своей смены
-    </p>
+        <p>
+            Выполни все обязательные задачи своей смены
+        </p>
 
-</header>
+    </header>
 
 
-<!-- PROGRESS -->
+    <section class="progress-card">
 
-<section class="progress-card">
+        <div class="progress-top">
 
-    <div class="progress-top">
+            <div>
 
-        <div>
-            <div class="progress-title">
-                📊 ПРОГРЕСС СМЕНЫ
+                <div class="progress-title">
+                    📊 ПРОГРЕСС СМЕНЫ
+                </div>
+
+                <div
+                    class="progress-count"
+                    id="progress-count"
+                >
+                    0 / 0 выполнено
+                </div>
+
             </div>
+
 
             <div
-                class="progress-count"
-                id="progress-count"
+                class="progress-percent"
+                id="progress-percent"
             >
-                0 / 0 выполнено
+                0%
             </div>
+
         </div>
 
-        <div
-            class="progress-percent"
-            id="progress-percent"
-        >
-            0%
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                id="progress-fill"
+            ></div>
+
         </div>
 
+    </section>
+
+
+    <main id="checklist"></main>
+
+
+    <div
+        class="complete-message"
+        id="complete-message"
+    >
+        🎉 Смена полностью закрыта
     </div>
 
-    <div class="progress-bar">
-        <div
-            class="progress-fill"
-            id="progress-fill"
-        ></div>
-    </div>
 
-</section>
-
-
-<!-- CHECKLIST -->
-
-<main id="checklist"></main>
+    <button
+        class="reset-button"
+        id="reset-button"
+        type="button"
+    >
+        ↻ Начать новую смену
+    </button>
 
 
-<!-- COMPLETE -->
+    <footer>
+        Chatter Academy
+    </footer>
 
-<div
-    class="complete-message"
-    id="complete-message"
->
-    🎉 Смена полностью закрыта
 </div>
 
 
-<!-- RESET -->
+<script src="./script.js"></script>
+```
 
-<button
-    class="reset-button"
-    id="reset-button"
->
-    ↻ Начать новую смену
-</button>
+</body>
+</html>
 
-
-<footer>
-    Chatter Academy
-</footer>
-
-</div>
-
-<script src="script.js"></script>
-
-</body> </html>
